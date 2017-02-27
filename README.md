@@ -18,9 +18,14 @@ Spring data JPA、Spring boot、Spring data Jedis
 
 ### 3.1 并发中遇到哪些问题
 
-双重检查锁定实现的单例，由于指令重排序造成实例化多个对象。
+死锁产生条件：互斥条件，请求与保持条件，不剥夺条件，循环等待条件
+
+
 
 ### 3.2 职业规划
+
+希望自己将来可以造轮子给别人用。
+
 
 ### 3.3 说说你项目中印象比较深刻的bug
 
@@ -28,11 +33,17 @@ Spring data JPA、Spring boot、Spring data Jedis
 
 ### 4.如何在项目中使用缓存
 
+读多改少的情况用二级缓存
+
+否则用Redis缓存
+
 ### 5.公司项目流程图
 
 ### 6.mq在项目中如何使用
 
    替代部分分布式事务问题，能达到最终一致性
+
+   更新每台机器的一级缓存
 
 ### 7.hash一致性分片的好处
 
@@ -40,7 +51,32 @@ Spring data JPA、Spring boot、Spring data Jedis
 
 ### 9.put流程
 
+put()方法返回的是`oldValue`或者`null`
+
+```
+static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+```
+
+`<<` : 左移运算符，num << 1,相当于num乘以2
+
+`>>` : 右移运算符，num >> 1,相当于num除以2
+
+`>>>`: 无符号右移，忽略符号位，空位都以0补齐
+
+`&` 与 两个操作数中位都为1，结果才为1，否则结果为0
+
+`~` 非 如果位为0，结果是1，如果位为1，结果是0
+
+`|` 或 两个位只要有一个为1，那么结果就是1，否则就为0
+
+`^` 异或 两个操作数的位中，相同则结果为0，不同则结果为1
+
 ### 10.扩容线程的5种状态如何切换
+
+线程的5种状态：新建、就绪、运行、阻塞、死亡。
 
 ### 11.线程是否可以重复启动，会有什么后果。
 
@@ -129,6 +165,8 @@ Spring data JPA、Spring boot、Spring data Jedis
 ### 52.jvm启动时发生了那些事
 
 ### 53.HashMap和HashTable的区别。
+
+HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashMap允许null key和null value，而hashtable不允许。
 
 ### 54.TCP窗口是什么
 
@@ -276,7 +314,7 @@ Spring data JPA、Spring boot、Spring data Jedis
      SimpleDateFormat是非线程安全的
 
 ### 118.HashMap的操作中，直接使用keySet()遍历有什么问题
-         EntrySet
+     EntrySet
 
 
 ### 119.linux中awk命令的使用？
