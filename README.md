@@ -123,17 +123,61 @@ ReentrantLock 相对于固有锁synchronized，同样是可重入的，在某些
 
 ### 14.spring aop底层实现方式
 
+动态代理
+
 ### 15.spring事务的实现原理
 
-### 16.事务的特性，4种隔离级别
+所谓事务传播行为就是多个事务方法相互调用时，事务如何在这些方法间传播。Spring 支持 7 种事务传播行为：
+
+PROPAGATION_REQUIRED 如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。这是最常见的选择。
+
+PROPAGATION_SUPPORTS 支持当前事务，如果当前没有事务，就以非事务方式执行。
+
+PROPAGATION_MANDATORY 使用当前的事务，如果当前没有事务，就抛出异常。
+
+PROPAGATION_REQUIRES_NEW 新建事务，如果当前存在事务，把当前事务挂起。
+
+PROPAGATION_NOT_SUPPORTED 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+
+PROPAGATION_NEVER 以非事务方式执行，如果当前存在事务，则抛出异常。
+
+PROPAGATION_NESTED 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则执行与
+
+PROPAGATION_REQUIRED 类似的操作。
+
+### 16.
 
 ### 17.http请求可能返回的状态码
 
 ### 18.post和get的区别
 
-### ### 19.如何分辨一个对象是否为垃圾
+GET用于信息获取，而且应该是安全的和幂等的。
+
+GET请求的数据会附在URL之后
+
+POST表示可能修改变服务器上的资源的请求。
+
+POST把提交的数据则放置在是HTTP包的包体中。
+
+### 19.如何分辨一个对象是否为垃圾
+
+可达性分析算法
+
+这个算法的基本思路就是通过一系列的称为“GC Roots”的对象作为起始点,从这些节点开始向下搜索,搜索所走过的路径称为引用链(Reference Chain),当一个对象到GC Roots没有任何引用链相连(用图论的话来说,就是从GC Roots到这个对象不可达)时,则证明此对象是不可用的。
+
+在Java语言中,可作为GC Roots的对象包括下面几种:
+
+* 虚拟机栈(栈帧中的本地变量表)中引用的对象。
+* 方法区中类静态属性引用的对象。
+* 方法区中常量引用的对象。
+* 本地方法栈中JNI(即一般说的Native方法)引用的对象。
+
+即使在可达性分析算法中不可达的对象,也并非是“非死不可”的,这时候它们暂时处于“缓刑”阶段,要真正宣告一个对象死亡,至少要经历两次标记过程:如果对象在进行可达性分析后发现没有与GC Roots相连接的引用链,那它将会被第一次标记并且进行一次筛选,筛选的条件是此对象是否有必要执行finalize()方法。当对象没有覆盖finalize()方法,或者finalize()方法已经被虚拟机调用过,虚拟机将这两种情况都视为“没有必要执行”。(即意味着直接回收)
+
 
 ### 20.是否可以手动回收
+
+不能手动回收，只能建议
 
 ### 21.不可以手动回收，这个方法有什么用？
 
@@ -173,11 +217,34 @@ ReentrantLock 相对于固有锁synchronized，同样是可重入的，在某些
 
 ### 36.线程池底层是怎么实现的
 
-### 37.线程池的两种创建方式
+
+### 37.线程的两种创建方式
+
+继承Thread类
+
+实现Runnable接口
+
+采用继承Thread类方式：
+
+- 1 优点：编写简单，如果需要访问当前线程，无需使用Thread.currentThread()方法，直接使用this，即可获得当前线程。
+- 2 缺点：因为线程类已经继承了Thread类，所以不能再继承其他的父类。
+
+采用实现Runnable接口方式：
+- 1 优点： 线程类只是实现了Runable接口，还可以继承其他的类。 可以多个线程共享同一个目标对象，所以非常适合多个相同线程来处理同一份资源的情况。
+- 2 缺点：编程稍微复杂，如果需要访问当前线程，必须使用Thread.currentThread()方法。
 
 ### 38.讲讲线程池coreSize和max的关系
 
+int corePoolSIze，核心池大小，也就是线程池中会维持不被释放的线程数量。
+
+maximumPoolSize，线程池的最大线程数，代表着线程池中能创建多少线程池。
+
 ### 39.线程池拒绝策略
+
+* ThreadPoolExcutor.AbortPolicy()——直接抛出异常，默认操作
+* ThreadPoolExcutor.CallerRunsPolicy()——只用调用者所在线程来运行任务
+* ThreadPoolExcutor.DiscardOldersPolicy()——丢弃队列里最近的一个任务，并执行当前任务
+* ThreadPoolExcutor.DiscardPolicy()——不处理，直接丢掉
 
 ### 40.二分查找
 
@@ -239,19 +306,49 @@ HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashM
 
 ### 67.cglib和jdk proxy区别
 
+jdk动态代理是由java内部的**反射机制**来实现的，cglib动态代理底层则是借助asm（ASM是一个java字节码操纵框架）来实现的。总的来说，反射机制在生成类的过程中比较高效，而asm在生成类之后的相关执行过程中比较高效（可以通过将asm生成的类进行缓存，这样解决asm生成类过程低效问题）。还有一点必须注意：jdk动态代理的应用前提，必须是目标类基于统一的接口。如果没有上述前提，jdk动态代理不能应用。
+
+扩展：java动态代理和静态代理
+
+按照代理的创建时期，代理类可以分为两种：
+
+静态：由程序员创建代理类或特定工具自动生成源代码再对其编译。在程序运行前代理类的.class文件就已经存在了。
+
+动态：在程序运行时运用反射机制动态创建而成。
+
 ### 68.类锁，对象锁
 
 ### 69.异常结构物
 
-### 70.事务的隔离级别，情景分析
+### 70.事务的隔离级别和特性，情景分析
+
+事务的四大特性：
+
+* 原子性（Atomicity）
+
+* 一致性（Consistency）
+
+* 隔离性（Isolation）
+
+* 持久性（Durability）
+
+事务的隔离级别：
+
+数据库事务的隔离级别有4个，由低到高依次为Read uncommitted、Read committed、Repeatable read、Serializable，这四个级别可以逐个解决脏读、不可重复读、幻读这几类问题。
+
+*注：MySQL的默认隔离级别就是Repeatable read。*
 
 ### 71.LinkedHashMap使用场景
+
+实现LRU Cache
 
 ### 72.ThreadLocal 应用场景
 
 比如在多线程环境下使用SimpleDateFormat
 
 ### 73.同一进程的不同线程，哪些内容可以共享
+
+Heap
 
 ### 74.字符串格式化，去掉首尾的空格，以及字符串中间连续的空格，但中间的只保留最后一个空格。比如： " i love meituan ",格式化后："ilove meituan”.
 
@@ -267,13 +364,31 @@ HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashM
 
 ### 80.StringBuffer和StringBuilder的区别
 
+StringBufferd支持并发操作，线性安全的，适 合多线程中使用。StringBuilder不支持并发操作，线性不安全的，不适合多线程中使用
+
 ### 81.螺旋矩阵算法
 
 ### 82.jvm调试，内存优化
 
+禁用System.gc()
+
+开启JIT编译
+
 ### 83.Spring @Autowire和@Resource的区别
 
+在@Autowire使用时，默认使用by-Type的方式进行注入
+
+而@Resource，默认使用by-Type的方式注入，但使用by-Name方式时，相比@Autowire较方便
+
+@Autowire用于属性、构造器、多参数方法注入，可以通过@Qualifer变为by-Name方式
+
+@Resource则支持属性、setter方法上的使用：如果名字没有明确指定，默认名从那个字段名或者方法名中推断出。如果是字段，就获取这个字段名；如果是setter方法，其获取bean的属性名。
+
+所以，你在注入构造器与多参数方法时，请使用@Autowire与@Qualifer进行配合
+
 ### 84.URL长度限制
+
+http协议不限制，各厂商浏览器限制
 
 ### 85.volitile关键字作用
 
@@ -346,7 +461,7 @@ HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashM
 
 ### 113.ArrayList是不是线程安全的? 怎么实现线程安全的?
 
-### 114.synchronized和lock有什么区别？
+### 114.
 
 ### 115.volatile的作用，如果volatile修饰的对象经过了大量的写，会出现什么问题？
 
@@ -359,8 +474,7 @@ HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashM
      SimpleDateFormat是非线程安全的
 
 ### 118.HashMap的操作中，直接使用keySet()遍历有什么问题
-     EntrySet
-
+     效率低，建议使用EntrySet
 
 ### 119.linux中awk命令的使用？
 
@@ -371,6 +485,8 @@ HashMap不是线程安全的，HashTable是线程安全的一个Collection,HashM
 ### 122.负载分为哪些类别和层次？你们项目中是怎么用的？
 
 ### 123.mq是如何使用的？
+
+同6#
 
 ### 124.http协议建立连接的过程是怎么样的？
 
