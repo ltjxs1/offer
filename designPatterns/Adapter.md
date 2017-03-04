@@ -21,24 +21,27 @@
 
 代码：
 
+接口A
+
 ```
-//接口A
 public interface InterfaceA {
     void methodA();
     void methodB();
 }
 ```
 
+接口B
+
 ```
-//接口B
 public interface InterfaceB {
     void methodA();
     void methodB();
 }
 ```
 
+接口A的实现类
+
 ```
-//接口A的实现类
 public class AImpl implements InterfaceA {
     @Override
     public void methodA() {
@@ -52,8 +55,9 @@ public class AImpl implements InterfaceA {
 }
 ```
 
+接口B的实现类
+
 ```
-//接口B的实现类
 public class BImpl implements InterfaceB {
     @Override
     public void methodA() {
@@ -67,8 +71,9 @@ public class BImpl implements InterfaceB {
 }
 ```
 
+接口A对接口B的适配器类
+
 ```
-//接口A对接口B的适配器类
 public class AAdapter implements InterfaceA {
 
     private BImpl bImpl = new BImpl();
