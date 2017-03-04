@@ -6,6 +6,10 @@
 
 ## 多线程&并发
 
+## 设计模式
+
+- [适配器模式](designPatterns/Adapter.md)
+
 ## 数据结构
 
 - [单链表逆转](dataStructure/单链表逆转.md)
