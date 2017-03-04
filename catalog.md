@@ -9,6 +9,7 @@
 ## 设计模式
 
 - [适配器模式](designPatterns/Adapter.md)
+- [状态设计模式](designPatterns/State.md)
 
 ## 数据结构
 
