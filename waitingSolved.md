@@ -49,8 +49,6 @@ Spring data JPA、Spring boot、Spring data Jedis
 
 put()方法返回的是`oldValue`或者`null`
 
-不指定容量的构造方法，map.size() = 0, 第一次初始化默认大小时16
-
 ```
 static final int hash(Object key) {
         int h;
