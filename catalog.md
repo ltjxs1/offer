@@ -14,6 +14,7 @@
 ## 数据结构
 
 - [单链表逆转](dataStructure/单链表逆转.md)
+- [数据结构相关](dataStructure/数据结构相关.md)
 
 ## 算法
 
