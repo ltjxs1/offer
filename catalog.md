@@ -7,6 +7,8 @@
 - [Java代码性能优化](JVM/Java代码性能优化.md)
 
 ## 多线程&并发
+- [并发相关](concurrent/并发相关.md)
+- [更好的使用Java线程池](concurrent/更好的使用Java线程池.md)
 
 ## Spring相关
 
