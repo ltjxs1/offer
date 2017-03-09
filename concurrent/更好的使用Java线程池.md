@@ -24,7 +24,7 @@ new ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime
 
 **corePoolSize**
 
-线程池默认初始化时，`allowCoreThreadTimeOut`为`false`, 也就是说默认情况下，线程池的线程数最小是`corePoolSize`, 即使这些线程是空闲的，数量也会维持在`corePoolSize`。线程池对象有个方法`allowCoreThreadTimeOut(boolean value)`, 当传入`true`的时候，表示核心线程池的线程在没有任务到达的时候，`keepAliveTime`时间后关闭。
+线程池默认初始化时，`allowCoreThreadTimeOut`为`false`, 也就是说默认情况下，线程池的线程数最小是`corePoolSize`, 即使这些线程是空闲的，数量也会维持在`corePoolSize`。线程池对象有个方法`allowCoreThreadTimeOut(boolean value)`, 当传入`true`的时候，表示核心线程池的线程在没有任务到达的时候，`keepAliveTime`时间后关闭，线程池里的线程数量就会小于`corePoolSize`。
 
 **maximumPoolSize**
 
