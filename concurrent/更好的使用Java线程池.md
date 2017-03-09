@@ -44,3 +44,5 @@ new ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime
 - DiscardOldestPolicy    丢弃最老的一个未执行的任务并执行当前任务
 
 要知道，线程池初始化的时候，池子里是没有线程的。
+
+那`corePoolSize`配置成多大合适呢？一般来说，CPU密集型任务可以少配置线程数，大概和机器的cpu核数相当。IO密集型时，大部分线程都阻塞，故需要多配置线程数，2*cpu核数
