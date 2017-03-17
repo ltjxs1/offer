@@ -9,6 +9,7 @@
 ## 多线程&并发
 - [并发相关](concurrent/并发相关.md)
 - [更好的使用Java线程池](concurrent/更好的使用Java线程池.md)
+- [线程池的种类](concurrent/线程池的种类.md)
 
 ## Spring相关
 
