@@ -5,6 +5,7 @@
 ## JVM
 - [JVM相关](JVM/JVM相关.md)
 - [Java代码性能优化](JVM/Java代码性能优化.md)
+- [内存分配与回收策略](JVM/内存分配与回收策略.md)
 
 ## 多线程&并发
 - [并发相关](concurrent/并发相关.md)
